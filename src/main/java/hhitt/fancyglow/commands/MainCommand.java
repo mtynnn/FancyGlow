@@ -6,9 +6,11 @@ import dev.rollczi.litecommands.annotations.description.Description;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.permission.Permission;
 import hhitt.fancyglow.FancyGlow;
+import hhitt.fancyglow.inventory.CreatingInventory;
 import hhitt.fancyglow.managers.GlowManager;
 import hhitt.fancyglow.utils.MessageHandler;
 import hhitt.fancyglow.utils.Messages;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -64,10 +66,16 @@ public class MainCommand {
         try {
             plugin.getConfiguration().reload();
         } catch (IOException e) {
-            // No longer using logger as field, since this is the only place its being used.
-            plugin.getLogger().severe("Unexpected exception during configuration-reload with the following message: " + e.getMessage());
+            plugin.getLogger().severe("Unexpected exception during configuration-reload: " + e.getMessage());
         } finally {
-            // Re-initialize inventory only when reloading, probably not the best way to do it.
+            // Close the old inventory for any player that has it open, then
+            // recreate it so the title (set at Bukkit inventory creation) refreshes.
+            for (Player online : Bukkit.getOnlinePlayers()) {
+                if (online.getOpenInventory().getTopInventory().getHolder() instanceof CreatingInventory) {
+                    online.closeInventory();
+                }
+            }
+            plugin.setInventory(new CreatingInventory(plugin));
             plugin.getInventory().setupContent();
 
             glowManager.scheduleFlashingTask();
