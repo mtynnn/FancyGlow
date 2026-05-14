@@ -41,35 +41,35 @@ Notify_Updates: true
 Auto_Tag: false
 
 Messages:
-  # All translations for plugin messages
-  No_Permission: "<red>You do not have permission to perform this!"
-  Reload_Message: "<blue>Plugin configuration file reloaded successfully!"
-  Enable_Glow: "<green>Glow successfully enabled!"
-  Disable_Glow: "<red>Glow successfully disabled!"
-  Enable_Flashing: "<green>Flashing mode has been enabled!"
-  Disable_Flashing: "<red>Flashing has been disabled!"
-  Enable_Rainbow: "<green>Rainbow mode has been enabled!"
-  Disable_Rainbow: "<red>Rainbow mode has been disabled!"
-  Disable_Usage: "<red>Incorrect command usage! Use /glow disable <player>."
-  Disable_Glow_Others: "<red>Disabled glow of %player_name%!"
-  Disable_Glow_Everyone: "<red>Disabled glow of everyone online!"
-  Not_Glowing: "<red>You are not currently glowing!"
-  Not_Valid_Color: "<red>Not a valid glow color!"
-  Color_Command_Usage: "<red>Incorrect command usage! Use /glow color <color>."
-  Color_Set_Command_Usage: "<red>Incorrect command usage! Use /glow set <player> <color>."
-  Unknown_Target: "<red>Player %player_name% is not online!"
-  Target_Not_Glowing: "<red>Target is not glowing!"
-  Invalid_Sub_Command: "<red>Unknown sub-command \"%sub_command%\"."
-  Color_Already_Selected: "<red>You already have selected that color."
-  Flashing_With_Rainbow: "<red>Rainbow and Flashing combined is disabled."
-  # Message that player gets when entering a world where glow is disabled
-  Disabled_World_Message: "<red>Glow is disabled in this world!"
-  # Translations for status placeholder. (%fancyglow_status_formatted%)
-  Glow_Status_False: "<red>Not glowing! ❌"
-  Glow_Status_True: "<green>Glowing! ✔</green>"
-  Glow_Status_None: "NONE"
-  # Internal usage.
-  Message_Not_Found: "Message not found a messages enum."
+  # Traducción de todos los mensajes del plugin
+  No_Permission: "<red>¡No tienes permiso para hacer esto!"
+  Reload_Message: "<blue>¡Configuración del plugin recargada correctamente!"
+  Enable_Glow: "<green>¡Brillo activado correctamente!"
+  Disable_Glow: "<red>¡Brillo desactivado correctamente!"
+  Enable_Flashing: "<green>¡Modo destellante activado!"
+  Disable_Flashing: "<red>¡Modo destellante desactivado!"
+  Enable_Rainbow: "<green>¡Modo arcoíris activado!"
+  Disable_Rainbow: "<red>¡Modo arcoíris desactivado!"
+  Disable_Usage: "<red>¡Uso incorrecto! Usa /glow disable <jugador>."
+  Disable_Glow_Others: "<red>¡Brillo de %player_name% desactivado!"
+  Disable_Glow_Everyone: "<red>¡Brillo de todos los jugadores en línea desactivado!"
+  Not_Glowing: "<red>¡No estás brillando actualmente!"
+  Not_Valid_Color: "<red>¡Color de brillo no válido!"
+  Color_Command_Usage: "<red>¡Uso incorrecto! Usa /glow color <color>."
+  Color_Set_Command_Usage: "<red>¡Uso incorrecto! Usa /glow set <jugador> <color>."
+  Unknown_Target: "<red>¡El jugador %player_name% no está en línea!"
+  Target_Not_Glowing: "<red>¡El jugador objetivo no está brillando!"
+  Invalid_Sub_Command: "<red>Subcomando desconocido \"%sub_command%\"."
+  Color_Already_Selected: "<red>Ya tienes ese color seleccionado."
+  Flashing_With_Rainbow: "<red>Combinar arcoíris y destellante está desactivado."
+  # Mensaje que recibe el jugador al entrar a un mundo donde el brillo está desactivado
+  Disabled_World_Message: "<red>¡El brillo está desactivado en este mundo!"
+  # Traducciones para el placeholder de estado (%fancyglow_status_formatted%)
+  Glow_Status_False: "<red>¡Sin brillo! ❌"
+  Glow_Status_True: "<green>¡Brillando! ✔</green>"
+  Glow_Status_None: "NINGUNO"
+  # Uso interno.
+  Message_Not_Found: "Mensaje no encontrado en el enum de mensajes."
 
 # List of worlds where glow cannot be enabled
 Disabled_Worlds:
@@ -77,54 +77,54 @@ Disabled_Worlds:
   - "DisabledGlowWorld"
 
 Inventory:
-  # For translate the gui
-  Title: "<dark_red>Select a glow color!"
+  # Para traducir el menú
+  Title: "<dark_red>¡Selecciona un color de brillo!"
   Items:
-    Red_Glow_Name: "<red>Red</red>"
-    Gold_Glow_Name: "<gold>Gold</gold>"
-    Blue_Glow_Name: "<blue>Blue</blue>"
-    Aqua_Glow_Name: "<aqua>Aqua</aqua>"
-    Green_Glow_Name: "<green>Green</green>"
-    White_Glow_Name: "<white>White</white>"
-    Yellow_Glow_Name: "<yellow>Yellow</yellow>"
-    Gray_Glow_Name: "<color:#bdbdbd>Gray</color>"
-    Black_Glow_Name: "<color:#454545>Black</color>"
-    Dark_Red_Glow_Name: "<dark_red>Dark Red</dark_red>"
-    Pink_Glow_Name: "<light_purple>Pink</light_purple>"
-    Purple_Glow_Name: "<dark_purple>Purple</dark_purple>"
-    Dark_Aqua_Glow_Name: "<dark_aqua>Dark Aqua</dark_aqua>"
-    Dark_Blue_Glow_Name: "<dark_blue>Dark Blue</dark_blue>"
-    Dark_Gray_Glow_Name: "<color:#919191>Dark Gray</color>"
-    Dark_Green_Glow_Name: "<dark_green>Dark Green</dark_green>"
-    Color_Lore: "<color:#737373>Click to select!</color>"
+    Red_Glow_Name: "<red>Rojo</red>"
+    Gold_Glow_Name: "<gold>Dorado</gold>"
+    Blue_Glow_Name: "<blue>Azul</blue>"
+    Aqua_Glow_Name: "<aqua>Agua</aqua>"
+    Green_Glow_Name: "<green>Verde</green>"
+    White_Glow_Name: "<white>Blanco</white>"
+    Yellow_Glow_Name: "<yellow>Amarillo</yellow>"
+    Gray_Glow_Name: "<color:#bdbdbd>Gris</color>"
+    Black_Glow_Name: "<color:#454545>Negro</color>"
+    Dark_Red_Glow_Name: "<dark_red>Rojo Oscuro</dark_red>"
+    Pink_Glow_Name: "<light_purple>Rosa</light_purple>"
+    Purple_Glow_Name: "<dark_purple>Morado</dark_purple>"
+    Dark_Aqua_Glow_Name: "<dark_aqua>Agua Oscura</dark_aqua>"
+    Dark_Blue_Glow_Name: "<dark_blue>Azul Oscuro</dark_blue>"
+    Dark_Gray_Glow_Name: "<color:#919191>Gris Oscuro</color>"
+    Dark_Green_Glow_Name: "<dark_green>Verde Oscuro</dark_green>"
+    Color_Lore: "<color:#737373>¡Clic para seleccionar!</color>"
   Filler:
     Enabled: true
     Material: "GRAY_STAINED_GLASS_PANE"
-    Name: "<rainbow>Click on a color!</rainbow>"
+    Name: "<rainbow>¡Clic en un color!</rainbow>"
   Status:
     Slot: 41
-    Name: "<color:#6effa3>Your glowing status:</color>"
+    Name: "<color:#6effa3>Tu estado de brillo:</color>"
     Lore:
       Selected:
-        - "<white>You are currently have selected %mode% <white>glow."
-        - "<gray>Click to disable!"
+        - "<white>Tienes seleccionado el brillo %mode%."
+        - "<gray>¡Clic para desactivar!"
       Click:
-        - "<white>Select a glow color!"
+        - "<white>¡Selecciona un color de brillo!"
   Rainbow:
     Slot: 39
-    Name: "<rainbow>Rainbow Mode!</rainbow>"
+    Name: "<rainbow>¡Modo Arcoíris!</rainbow>"
     Lore:
-      - "<#9e8fff>Click to enable rainbow mode!</#9e8fff>"
+      - "<#9e8fff>¡Clic para activar el modo arcoíris!</#9e8fff>"
     Texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTI0OTMyYmI5NDlkMGM2NTcxN2IxMjFjOGNkOWEyMWI2OWU4NmMwZjdlMzQyMWFlOWI4YzY0ZDhiOTkwZWI2MCJ9fX0"
   Flashing:
     Slot: 40
-    Name: "<gradient:#d6d6d6:#b6b6b6:#9f9f9f:#ececec>Flashing Mode!</gradient>"
+    Name: "<gradient:#d6d6d6:#b6b6b6:#9f9f9f:#ececec>¡Modo Destellante!</gradient>"
     Lore:
-      - "<#9e8fff>Click to enable flashing mode!</#9e8fff>"
+      - "<#9e8fff>¡Clic para activar el modo destellante!</#9e8fff>"
     Texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTFjNTgxYThiNTk3NjkyYjViOTRkM2I4YmViOWM1MmY1Njk5OWQ2MmY3Mzk1NjY4ZmFjNTdhYzk1MmZlNGRjNCJ9fX0="
 
 COMMAND_MANAGER:
   USAGE:
     HEADER: "<color:#9042f5> <bold>FancyGlow</bold> <gray>‣ <white><required> [optional]"
-    MESSAGE: "<red>Invalid usage of command!"
+    MESSAGE: "<red>¡Uso de comando inválido!"
     PREFIX: "<red> "

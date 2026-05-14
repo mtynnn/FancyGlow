@@ -103,16 +103,10 @@ public class CreatingInventory implements InventoryHolder {
     }
 
     private void setFlashingItem(final Player player) {
-        // Clear flashing item since plugin no longer
         int slot = config.getInt("Inventory.Flashing.Slot", 40);
         if (slot == -1) {
             return;
         }
-
-        inventory.setItem(slot, null);
-
-        // Returns if player doesn't have any team or isn't glowing.
-        if (playerGlowManager.findPlayerTeam(player) == null && !player.isGlowing()) return;
 
         // Flashing head
         ItemStack flashingHead = HeadUtils.getCustomSkull(config.getString("Inventory.Flashing.Texture", DEFAULT_FLASHING_TEXTURE));
