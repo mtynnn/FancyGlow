@@ -12,6 +12,7 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -49,8 +50,8 @@ public class GlowManager {
 
     public GlowManager(FancyGlow plugin) {
         this.plugin = plugin;
-        this.flashingPlayerSet = new HashSet<>();
-        this.multicolorPlayerSet = new HashSet<>();
+        this.flashingPlayerSet = Collections.synchronizedSet(new HashSet<>());
+        this.multicolorPlayerSet = Collections.synchronizedSet(new HashSet<>());
         this.scoreboardManager = plugin.getServer().getScoreboardManager();
         this.tabIntegration = new TabIntegration(plugin);
     }
@@ -220,5 +221,15 @@ public class GlowManager {
     
     public TabIntegration getTabIntegration() {
         return tabIntegration;
+    }
+
+    public void cleanupEmptyTeams() {
+        Scoreboard board = scoreboardManager.getMainScoreboard();
+        for (ChatColor color : COLORS_ARRAY) {
+            Team team = board.getTeam(color.name());
+            if (team != null && team.getEntries().isEmpty()) {
+                team.unregister();
+            }
+        }
     }
 }

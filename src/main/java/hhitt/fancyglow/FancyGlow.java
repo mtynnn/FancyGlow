@@ -19,6 +19,7 @@ import hhitt.fancyglow.utils.MessageHandler;
 import hhitt.fancyglow.utils.MessageUtils;
 import hhitt.fancyglow.utils.TabImplementation;
 import hhitt.fancyglow.utils.UpdateChecker;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -39,7 +40,7 @@ import java.util.logging.Logger;
 public final class FancyGlow extends JavaPlugin {
 
     private static FancyGlowAPI API;
-    private final Logger logger = this.getLogger(); // Standard logger
+    private final Logger logger = this.getLogger();
 
     private BukkitAudiences adventure;
 
@@ -51,6 +52,7 @@ public final class FancyGlow extends JavaPlugin {
 
     private CommandLoader commandLoader;
     private CreatingInventory inventory;
+    private FancyGlowPlaceholder papiExpansion;
 
     /**
      * Provides access to Adventure for chat formatting.
@@ -125,10 +127,10 @@ public final class FancyGlow extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Cleanup Adventure
-        if (this.adventure != null) {
-            this.adventure.close();
-            this.adventure = null;
+        // Unregister PAPI expansion so PlugMan reload gets a fresh instance
+        if (this.papiExpansion != null && Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            PlaceholderAPI.unregisterExpansion(this.papiExpansion);
+            this.papiExpansion = null;
         }
 
         // Unregister Commands
@@ -136,12 +138,22 @@ public final class FancyGlow extends JavaPlugin {
             this.commandLoader.unregisterAll();
         }
 
-        // Stop active glow tasks
+        // Stop active glow tasks and cancel every remaining scheduled task
         if (this.glowManager != null) {
             this.glowManager.stopFlashingTask();
             this.glowManager.stopMulticolorTask();
         }
-        
+        getServer().getScheduler().cancelTasks(this);
+
+        // Cleanup Adventure
+        if (this.adventure != null) {
+            this.adventure.close();
+            this.adventure = null;
+        }
+
+        // Reset static API reference so it is not leaked across reloads
+        API = null;
+
         this.logger.info("FancyGlow has been disabled.");
     }
 
@@ -179,17 +191,14 @@ public final class FancyGlow extends JavaPlugin {
         });
     }
 
-    /**
-     * Hooks into PlaceholderAPI if present.
-     */
     private void hookPlaceholderAPI() {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
             this.logger.warning("PlaceholderAPI not found! Internal placeholders will not work in other plugins.");
             return;
         }
 
-        // Register FancyGlow expansion in PAPI
-        new FancyGlowPlaceholder(this).register();
+        this.papiExpansion = new FancyGlowPlaceholder(this);
+        this.papiExpansion.register();
     }
 
     // --- Getters ---

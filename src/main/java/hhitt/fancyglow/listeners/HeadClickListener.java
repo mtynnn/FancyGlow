@@ -71,7 +71,7 @@ public class HeadClickListener implements Listener {
 
             // Toggle flashing mode
             boolean toggled = glowManager.toggleFlashingGlow(player);
-            messageHandler.sendMessage(player, toggled ? Messages.ENABLE_FLASHING : Messages.DISABLE_GLOW);
+            messageHandler.sendMessage(player, toggled ? Messages.ENABLE_FLASHING : Messages.DISABLE_FLASHING);
         }
         // Status Slot
         else if (event.getSlot() == statusSlot) {

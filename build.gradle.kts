@@ -3,7 +3,7 @@ import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 plugins {
     id("java")
     id("maven-publish")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.gradleup.shadow") version "8.3.0"
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
 }
 
@@ -16,16 +16,15 @@ repositories {
     maven("https://oss.sonatype.org/content/groups/public")
     maven("https://repo.codemc.io/repository/maven-releases/")
     maven("https://repo.codemc.io/repository/maven-snapshots/")
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi")
 }
 
 dependencies {
     compileOnly(libs.com.mojang.authlib)
     compileOnly(libs.me.clip.placeholderapi)
-    compileOnly(libs.org.spigotmc.spigot.api)
+    compileOnly(libs.io.papermc.paper.paper.api)
     compileOnly(libs.com.github.neznamy.tab.api)
-    compileOnly(libs.com.github.retrooper.packetevents.spigot)
 
     // Change "zap" to "implementation" for all these:
     implementation(libs.net.kyori.adventure.api)
@@ -56,7 +55,7 @@ tasks {
 
     java {
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(17))
+            languageVersion.set(JavaLanguageVersion.of(21))
         }
     }
 
@@ -83,7 +82,7 @@ tasks {
         prefix = name
         version = project.version.toString()
         main = project.group.toString() + ".FancyGlow"
-        apiVersion = "1.19"
+        apiVersion = "1.21"
         authors = listOf("hhitt")
         contributors = listOf("Sliide_")
         load = BukkitPluginDescription.PluginLoadOrder.POSTWORLD
