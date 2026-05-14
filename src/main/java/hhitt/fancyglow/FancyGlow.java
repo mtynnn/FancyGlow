@@ -20,13 +20,11 @@ import hhitt.fancyglow.utils.MessageUtils;
 import hhitt.fancyglow.utils.TabImplementation;
 import hhitt.fancyglow.utils.UpdateChecker;
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicePriority;
-import org.bukkit.plugin.java.JavaPlugin; // Added standard Spigot import
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,8 +40,6 @@ public final class FancyGlow extends JavaPlugin {
     private static FancyGlowAPI API;
     private final Logger logger = this.getLogger();
 
-    private BukkitAudiences adventure;
-
     private YamlDocument configuration;
     private MessageHandler messageHandler;
 
@@ -53,16 +49,6 @@ public final class FancyGlow extends JavaPlugin {
     private CommandLoader commandLoader;
     private CreatingInventory inventory;
     private FancyGlowPlaceholder papiExpansion;
-
-    /**
-     * Provides access to Adventure for chat formatting.
-     */
-    public @NonNull BukkitAudiences adventure() {
-        if (this.adventure == null) {
-            throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
-        }
-        return this.adventure;
-    }
 
     @Override
     public void onEnable() {
@@ -77,10 +63,6 @@ public final class FancyGlow extends JavaPlugin {
             // Attempts to hook onto TAB API (Automatically updates nametags)
             new TabImplementation(this).initialize();
         });
-
-        // Initialize Adventure
-        this.adventure = BukkitAudiences.create(this);
-        MessageUtils.setAdventure(adventure());
 
         // Initialize Configuration Manager (BoostedYAML)
         try {
@@ -144,12 +126,6 @@ public final class FancyGlow extends JavaPlugin {
             this.glowManager.stopMulticolorTask();
         }
         getServer().getScheduler().cancelTasks(this);
-
-        // Cleanup Adventure
-        if (this.adventure != null) {
-            this.adventure.close();
-            this.adventure = null;
-        }
 
         // Reset static API reference so it is not leaked across reloads
         API = null;

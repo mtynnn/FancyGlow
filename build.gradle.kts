@@ -26,14 +26,13 @@ dependencies {
     compileOnly(libs.io.papermc.paper.paper.api)
     compileOnly(libs.com.github.neznamy.tab.api)
 
-    // Change "zap" to "implementation" for all these:
-    implementation(libs.net.kyori.adventure.api)
+    // adventure-api and minimessage are provided by Paper API at runtime
+    compileOnly(libs.net.kyori.adventure.api)
+    compileOnly(libs.net.kyori.adventure.text.minimessage)
     implementation(libs.org.bstats.bstats.bukkit)
     implementation(libs.dev.rollczi.litecommands)
     implementation(libs.dev.dejvokep.boosted.yaml)
     implementation(libs.dev.rollczi.litecommands.adventure)
-    implementation(libs.net.kyori.adventure.platform.bukkit)
-    implementation(libs.net.kyori.adventure.text.minimessage)
 }
 
 group = "hhitt.fancyglow"
@@ -70,7 +69,8 @@ tasks {
 
         // MOVE your relocations here to prevent conflicts with other plugins
         val prefix = "${project.group}.deps"
-        relocate("net.kyori", "$prefix.kyori")
+        // net.kyori is NOT relocated: Paper bundles Adventure natively, relocating it
+        // would produce two separate class hierarchies and break Component passing.
         relocate("org.bstats", "$prefix.bstats")
         relocate("dev.rollczi", "$prefix.litecommands")
         relocate("dev.dejvokep.boostedyaml", "$prefix.boostedyaml")
