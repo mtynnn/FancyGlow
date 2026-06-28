@@ -43,7 +43,6 @@ public class GlowManager {
     private final Set<UUID> flashingPlayerSet;
     private final Set<UUID> multicolorPlayerSet;
     private final ScoreboardManager scoreboardManager;
-    private final TabIntegration tabIntegration;
 
     private BukkitTask flashingTask;
     private BukkitTask multicolorTask;
@@ -53,7 +52,6 @@ public class GlowManager {
         this.flashingPlayerSet = Collections.synchronizedSet(new HashSet<>());
         this.multicolorPlayerSet = Collections.synchronizedSet(new HashSet<>());
         this.scoreboardManager = plugin.getServer().getScoreboardManager();
-        this.tabIntegration = new TabIntegration(plugin);
     }
 
     public boolean toggleMulticolorGlow(Player player) {
@@ -96,27 +94,17 @@ public class GlowManager {
     }
 
     public void setGlow(Player player, ChatColor color) {
-        // Remove any existing glow
         removeGlow(player);
-        
-        // Get or create team
+
         Team team = getOrCreateTeam(color);
-        
-        // Add player to scoreboard team
         String cleanName = ChatColor.stripColor(player.getName());
         team.addEntry(cleanName);
         player.setGlowing(true);
-        
-        // Apply TAB team color if TAB is available
-        tabIntegration.setPlayerTeamColor(player, color);
     }
 
     public void removeGlow(Player player) {
         player.setGlowing(false);
         removePlayerFromAllTeams(player);
-        
-        // Reset TAB team color if TAB is available
-        tabIntegration.resetPlayerTeamColor(player);
     }
 
     public void removePlayerFromAllTeams(Player player) {
@@ -131,7 +119,6 @@ public class GlowManager {
             flashingPlayerSet.remove(player.getUniqueId());
         }
 
-        // Remove player from any color team
         for (final ChatColor color : COLORS_ARRAY) {
             Team team = board.getTeam(color.name());
             if (team != null && team.hasEntry(cleanName)) {
@@ -149,6 +136,16 @@ public class GlowManager {
             team.setColor(color);
         }
         return team;
+    }
+
+    public Team findPlayerTeam(Player player) {
+        Scoreboard board = scoreboardManager.getMainScoreboard();
+        String name = player.getName();
+        for (ChatColor color : COLORS_ARRAY) {
+            Team team = board.getTeam(color.name());
+            if (team != null && team.hasEntry(name)) return team;
+        }
+        return null;
     }
 
     public boolean hasGlowPermission(Player player, ChatColor color) {
@@ -217,10 +214,6 @@ public class GlowManager {
     public boolean isDeniedWorld(String worldName) {
         List<String> noAllowedWorlds = plugin.getConfiguration().getStringList("Disabled_Worlds");
         return noAllowedWorlds.contains(worldName);
-    }
-    
-    public TabIntegration getTabIntegration() {
-        return tabIntegration;
     }
 
     public void cleanupEmptyTeams() {

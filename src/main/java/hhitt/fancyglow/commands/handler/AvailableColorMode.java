@@ -44,7 +44,7 @@ public class AvailableColorMode extends ArgumentResolver<CommandSender, String> 
     @Override
     public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<String> argument, SuggestionContext context) {
         Set<String> availableColors = ColorUtils.getAvailableColorsSet();
-        if (!(invocation.sender() instanceof Player)) SuggestionResult.of(availableColors);
+        if (!(invocation.sender() instanceof Player)) return SuggestionResult.of(availableColors);
 
         Player player = (Player) invocation.sender();
         List<String> list = new ArrayList<>(availableColors.size());

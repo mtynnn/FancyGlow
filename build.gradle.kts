@@ -24,12 +24,9 @@ dependencies {
     compileOnly(libs.com.mojang.authlib)
     compileOnly(libs.me.clip.placeholderapi)
     compileOnly(libs.io.papermc.paper.paper.api)
-    compileOnly(libs.com.github.neznamy.tab.api)
-
     // adventure-api and minimessage are provided by Paper API at runtime
     compileOnly(libs.net.kyori.adventure.api)
     compileOnly(libs.net.kyori.adventure.text.minimessage)
-    implementation(libs.org.bstats.bstats.bukkit)
     implementation(libs.dev.rollczi.litecommands)
     implementation(libs.dev.dejvokep.boosted.yaml)
     implementation(libs.dev.rollczi.litecommands.adventure)
@@ -71,7 +68,6 @@ tasks {
         val prefix = "${project.group}.deps"
         // net.kyori is NOT relocated: Paper bundles Adventure natively, relocating it
         // would produce two separate class hierarchies and break Component passing.
-        relocate("org.bstats", "$prefix.bstats")
         relocate("dev.rollczi", "$prefix.litecommands")
         relocate("dev.dejvokep.boostedyaml", "$prefix.boostedyaml")
     }
@@ -87,10 +83,7 @@ tasks {
         contributors = listOf("Sliide_")
         load = BukkitPluginDescription.PluginLoadOrder.POSTWORLD
         defaultPermission = BukkitPluginDescription.Permission.Default.FALSE
-        softDepend = listOf(
-            "TAB",
-            "PlaceholderAPI",
-        )
+        softDepend = listOf("PlaceholderAPI")
 
         permissions {
             // Admin permission

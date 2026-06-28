@@ -30,7 +30,6 @@ public class PlayerQuitListener implements Listener {
             glowManager.disableRainbow(player);
         }
 
-        //TODO: Improve this thing?
         if (!plugin.getConfiguration().getBoolean("Persistent_Mode") && player.isGlowing()) {
             glowManager.removeGlow(player);
         }

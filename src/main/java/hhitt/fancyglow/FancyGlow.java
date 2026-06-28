@@ -16,11 +16,8 @@ import hhitt.fancyglow.managers.GlowManager;
 import hhitt.fancyglow.managers.PlayerGlowManager;
 import hhitt.fancyglow.utils.FancyGlowPlaceholder;
 import hhitt.fancyglow.utils.MessageHandler;
-import hhitt.fancyglow.utils.MessageUtils;
-import hhitt.fancyglow.utils.TabImplementation;
 import hhitt.fancyglow.utils.UpdateChecker;
 import me.clip.placeholderapi.PlaceholderAPI;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicePriority;
@@ -31,10 +28,6 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-/**
- * Main class for FancyGlow.
- * Converted to a standard JavaPlugin (No Zapper dependency).
- */
 public final class FancyGlow extends JavaPlugin {
 
     private static FancyGlowAPI API;
@@ -52,19 +45,8 @@ public final class FancyGlow extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Run internal hooks and metrics async to prevent main-thread lag
-        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
-            // bStats hook / metrics
-            new Metrics(this, 22057);
-            
-            // Check for plugin updates
-            checkUpdates();
+        Bukkit.getScheduler().runTaskAsynchronously(this, this::checkUpdates);
 
-            // Attempts to hook onto TAB API (Automatically updates nametags)
-            new TabImplementation(this).initialize();
-        });
-
-        // Initialize Configuration Manager (BoostedYAML)
         try {
             this.configuration = YamlDocument.create(
                     new File(this.getDataFolder(), "config.yml"),
@@ -79,63 +61,48 @@ public final class FancyGlow extends JavaPlugin {
 
         this.messageHandler = new MessageHandler(this, configuration);
 
-        // Initialize Core Managers
         this.glowManager = new GlowManager(this);
         this.playerGlowManager = new PlayerGlowManager(this);
-        
-        // Start background tasks for Flashing and Rainbow effects
+
         this.glowManager.scheduleFlashingTask();
         this.glowManager.scheduleMulticolorTask();
-        
-        // Setup GUI Inventory
+
         this.inventory = new CreatingInventory(this);
         this.inventory.setupContent();
 
-        // Instance API and register it as a Bukkit service
         API = new FancyGlowAPIImpl(this);
         getServer().getServicesManager().register(FancyGlowAPI.class, API, this, ServicePriority.Normal);
 
-        // Register commands and suggestions
         this.commandLoader = new CommandLoader(this);
 
-        // Register Event Listeners
         registerEvents();
-
-        // Hook into PlaceholderAPI
         hookPlaceholderAPI();
-        
+
         this.logger.info("FancyGlow has been enabled successfully!");
     }
 
     @Override
     public void onDisable() {
-        // Unregister PAPI expansion so PlugMan reload gets a fresh instance
         if (this.papiExpansion != null && Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             PlaceholderAPI.unregisterExpansion(this.papiExpansion);
             this.papiExpansion = null;
         }
 
-        // Unregister Commands
         if (this.commandLoader != null) {
             this.commandLoader.unregisterAll();
         }
 
-        // Stop active glow tasks and cancel every remaining scheduled task
         if (this.glowManager != null) {
             this.glowManager.stopFlashingTask();
             this.glowManager.stopMulticolorTask();
         }
         getServer().getScheduler().cancelTasks(this);
 
-        // Reset static API reference so it is not leaked across reloads
         API = null;
 
         this.logger.info("FancyGlow has been disabled.");
     }
 
-    /**
-     * Registers all plugin event listeners.
-     */
     public void registerEvents() {
         PluginManager pluginManager = getServer().getPluginManager();
 
@@ -146,18 +113,14 @@ public final class FancyGlow extends JavaPlugin {
         pluginManager.registerEvents(new PlayerChangeWorldListener(this), this);
     }
 
-    /**
-     * Checks if a newer version of the plugin is available on SpigotMC.
-     */
     private void checkUpdates() {
         if (!configuration.getBoolean("Notify_Updates", true)) return;
-        
+
         UpdateChecker.init(this, 116326).requestUpdateCheck().whenComplete((result, exception) -> {
             if (exception != null) {
                 this.logger.warning("Failed to check for updates: " + exception.getMessage());
                 return;
             }
-            
             if (result.requiresUpdate()) {
                 this.logger.info("--------------------------------------------------");
                 this.logger.info(String.format("There is a new update available! FancyGlow %s", result.getNewestVersion()));
@@ -176,8 +139,6 @@ public final class FancyGlow extends JavaPlugin {
         this.papiExpansion = new FancyGlowPlaceholder(this);
         this.papiExpansion.register();
     }
-
-    // --- Getters ---
 
     public static FancyGlowAPI getAPI() {
         return API;

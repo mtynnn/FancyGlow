@@ -74,11 +74,6 @@ public class PlayerGlowManager {
      * @return Team where player has a registry on, if none returns null
      */
     public Team findPlayerTeam(Player player) {
-        for (Team team : glowManager.getGlowTeams()) {
-            if (team.hasEntry(player.getName())) {
-                return team;
-            }
-        }
-        return null;
+        return glowManager.findPlayerTeam(player);
     }
 }

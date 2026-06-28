@@ -55,11 +55,6 @@ public class MainCommand {
     @Permission("fancyglow.command.reload")
     @Description("FancyGlow reload sub-command.")
     public void reloadCommand(@Context CommandSender sender) {
-        if (!sender.hasPermission("fancyglow.command.reload")) {
-            messageHandler.sendMessage(sender, Messages.NO_PERMISSION);
-            return;
-        }
-
         glowManager.stopFlashingTask();
         glowManager.stopMulticolorTask();
 
